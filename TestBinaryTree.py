@@ -1,3 +1,5 @@
+
+
 #  File: TestBinaryTree.py
 
 #  Description:
@@ -54,9 +56,6 @@ class Tree(object):
     # constructor
     def __init__(self):
         self.root = None
-        #allows easy access to max and min instead of using iteration
-        self.max = None
-        self.min = None
 
     def print(self, level):
         self.root.print_node(level)
@@ -96,6 +95,7 @@ class Tree(object):
                 
             return
 
+
     # Returns the range of values stored in a binary search tree of integers.
     # The range of values equals the maximum value in the binary search tree minus the minimum value.
     # If there is one value in the tree the range is 0. If the tree is empty the range is undefined.
@@ -107,31 +107,28 @@ class Tree(object):
         else:
             return self.max-self.min
 
-        
+
     # Returns a list of nodes at a given level from left to right
     def get_level(self, level):
         result=[]
-        #left=self.root
-        #right=self.root
+
         parent=self.root
-        #counter=0
+        if parent == None:
+            return result
         
         if level==0:
-            result.append(self.root.data)
+            result.append(parent)
             return result
         if level==1:
-            if self.root.lChild==None:
+            if parent.lChild==None:
                 pass
             else:
-                result.append(self.root.lChild.data)
-            if self.root.rChild==None:
+                result.append(parent.lChild)
+            if parent.rChild==None:
                 pass
             else:
-                result.append(self.root.rChild.data)
+                result.append(parent.rChild)
             return result
-       #rest of cases         
-        #for i in range(level):
-            #result=self.helper1(parent,result,level)
             
         return self.helper1(parent,result,level)
             
@@ -140,12 +137,13 @@ class Tree(object):
         if parent==None:
             return
         elif level==0:
-            result.append(parent.data)
+            result.append(parent)
         else:
             self.helper1(parent.lChild,result,level-1)
             self.helper1(parent.rChild,result,level-1)
         
         return result
+   
 
 
     # Returns the list of the node that you see from left side
@@ -154,26 +152,22 @@ class Tree(object):
         nodes = []
         for i in range(self.get_height()):
             level_nodes = self.get_level(i)
-            nodes.append(level_nodes[0])
+            nodes.append(level_nodes[0].data)
         return nodes
+        
+
 
     # returns the sum of the value of all leaves.
     # a leaf node does not have any children.
     def sum_leaf_nodes(self):
         leaf_sum = 0
         
-        """
-        for i in range(self.get_height()):
-            level_nodes = self.get_level(i)
-            for node in level_nodes:
-                if node.lChild == None and node.rChild == None:
-                    leaf_sum += node.data
-        """
         leaves = self.find_leaves(self.root)
         for leaf in leaves:
             leaf_sum += leaf.data
         return leaf_sum
-
+        
+    
     def find_leaves(self, root):
         leaves = []
         if root == None:
@@ -189,7 +183,11 @@ class Tree(object):
         if right_leaves != None:
             leaves += right_leaves
         
-        return leaves  
+        return leaves        
+  
+
+
+
 
 
 def make_tree(data):
@@ -204,24 +202,46 @@ def make_tree(data):
 
 def main():
     # Create three trees - two are the same and the third is different
-    tree1_input = [] 	# converts elements into ints
+    line = sys.stdin.readline()
+    line = line.strip()
+    line = line.split()
+    tree1_input = list(map(int, line)) 	# converts elements into ints
     t1 = make_tree(tree1_input)
     t1.print(t1.get_height())
 
     print("Tree range is: ",   t1.range())
     print("Tree left side view is: ", t1.left_side_view())
     print("Sum of leaf nodes is: ", t1.sum_leaf_nodes())
-    
-    print(t1.get_level(0))
-    print(t1.get_level(2))
-    print(t1.get_level(5))
     print("##########################")
 
+# Another Tree for test.
+    line = sys.stdin.readline()
+    line = line.strip()
+    line = line.split()
+    tree2_input = list(map(int, line)) 	# converts elements into ints
+    t2 = make_tree(tree2_input)
+    t2.print(t2.get_height())
+
+    print("Tree range is: ",   t2.range())
+    print("Tree left side view is: ", t2.left_side_view())
+    print("Sum of leaf nodes is: ", t2.sum_leaf_nodes())
+    print("##########################")
+# Another Tree
+    line = sys.stdin.readline()
+    line = line.strip()
+    line = line.split()
+    tree3_input = list(map(int, line)) 	# converts elements into ints
+    t3 = make_tree(tree3_input)
+    t3.print(t3.get_height())
+
+    print("Tree range is: ",   t3.range())
+    print("Tree left side view is: ", t3.left_side_view())
+    print("Sum of leaf nodes is: ", t3.sum_leaf_nodes())
+    print("##########################")
 
 
 if __name__ == "__main__":
     main()
-
 
 
 
